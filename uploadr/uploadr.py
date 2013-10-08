@@ -60,9 +60,12 @@ IMAGE_DIR = "images/"
 FLICKR = {"title": "",
         "description": "",
         "tags": "auto-upload",
-        "is_public": "1",
+        "is_public": "0",
         "is_friend": "0",
-        "is_family": "0" }
+        "is_family": "0",
+        "hidden": "1",
+        "content_type": "1"
+        }
 #
 #   How often to check for new images to upload (in seconds)
 #
@@ -343,6 +346,8 @@ class Uploadr:
                 photo = ('photo', image, open(image,'rb').read())
                 if args.title: # Replace
                     FLICKR["title"] = args.title
+                else:
+                    FLICKR["title"] = os.path.basename(image)
                 if args.description: # Replace
                     FLICKR["description"] = args.description
                 if args.tags: # Append
@@ -355,7 +360,9 @@ class Uploadr:
                     "tags"          : str( FLICKR["tags"] ),
                     "is_public"     : str( FLICKR["is_public"] ),
                     "is_friend"     : str( FLICKR["is_friend"] ),
-                    "is_family"     : str( FLICKR["is_family"] )
+                    "is_family"     : str( FLICKR["is_family"] ),
+                    "hidden"        : str( FLICKR["hidden"] ),
+                    "content_type"  : str( FLICKR["content_type"] )
                 }
                 sig = self.signCall( d )
                 d[ api.sig ] = sig
